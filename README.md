@@ -11,9 +11,9 @@ Spring Boot app built with Eclipse with CRUD, and spring security built with rol
 
 In this app sercurity operates on roles.
 
+```java
 @Configuration
 @EnableWebSecurity
-
 public class SecurityConfig {
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -37,15 +37,17 @@ public class SecurityConfig {
 		);
 	return http.build();
 	}
-	
+ 
 	@Bean
 	PasswordEncoder passwordEncoder() {
 	 return new BCryptPasswordEncoder();
 	}
-}
+ }
+```
 
 ### User model (ommited getters and setters and imports)
 
+```java
 @Entity
 @Table(name = "users")
 
@@ -64,9 +66,11 @@ public class UserEntity {
 	private List<Roles> roles = new ArrayList<>();
  ...
 }
+```
 
 ### User role model (connected to UserEntity through pivot table)
 
+```java
 @Entity
 @Table(name = "roles")
 
@@ -79,3 +83,4 @@ public class Roles {
 	private String name;
  ...
 }
+```
