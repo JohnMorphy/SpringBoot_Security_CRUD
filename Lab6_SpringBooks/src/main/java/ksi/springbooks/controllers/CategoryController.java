@@ -6,10 +6,11 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import ksi.springbooks.models.Category;
@@ -24,14 +25,14 @@ public class CategoryController {
 	
 	public CategoryController() {}
 	
-	@RequestMapping("category_list")
+	@GetMapping("category_list")
 	public String viewCategoryList(Model model){
 		List<Category> lc=service.findAll();
 		model.addAttribute("lc", lc);
 		return "category_list";
 	}
 	
-	@RequestMapping("/new_category")
+	@GetMapping("/new_category")
 	public String showFormNewCategory(Model model) {
 		Category nc = new Category();
 		model.addAttribute("category", nc);
@@ -45,7 +46,7 @@ public class CategoryController {
 	}
 
 	
-	@RequestMapping("/edit_category/{idc}")
+	@GetMapping("/edit_category/{idc}")
 	public ModelAndView showEditFormCategory(@PathVariable(name = "idc") Long idc) {
 		ModelAndView mav = new ModelAndView("edit_category");
 		Optional<Category> eb = service.findById(idc);
@@ -54,7 +55,7 @@ public class CategoryController {
 	}
 
 	
-	@RequestMapping("/delete_category/{idc}")
+	@DeleteMapping("/delete_category/{idc}")
 	public String deleteCategory(@PathVariable(name = "idc") Long idc) {
 		
 		// deletion only possible if category not assigned to any book

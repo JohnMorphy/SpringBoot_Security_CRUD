@@ -5,10 +5,11 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import ksi.springbooks.models.Book;
@@ -32,21 +33,21 @@ public class BookController {
 	
 	public BookController() {}
 
-	@RequestMapping("books_list_sort")
+	@GetMapping("books_list_sort")
 	public String viewBooksListSorted(Model model){
 		List<Book> lb=service.findAlByCategoryAndTitle();
 		model.addAttribute("lb", lb);
 		return "books_list";
 	}
 	
-	@RequestMapping("books_list")
+	@GetMapping("books_list")
 	public String viewBooksList(Model model){
 		List<Book> lb=service.findAll();
 		model.addAttribute("lb", lb);
 		return "books_list";
 	}
 	
-	@RequestMapping("/new_book")
+	@GetMapping("/new_book")
 	public String showFormNewBook(Model model) {
 		Book nb = new Book();
 		List<Category> availableCategories = categories.findAll();
@@ -63,7 +64,7 @@ public class BookController {
 		return "redirect:/books_list";
 	}
 
-	@RequestMapping("/edit_book/{idb}")
+	@GetMapping("/edit_book/{idb}")
 	public ModelAndView showEditFormBook(@PathVariable(name = "idb") Long idb) {
 		ModelAndView mav = new ModelAndView("edit_book");
 		Optional<Book> eb = service.findById(idb);
@@ -77,7 +78,7 @@ public class BookController {
 		return mav;
 	}
 
-	@RequestMapping("/delete_book/{idb}")
+	@DeleteMapping ("/delete_book/{idb}")
 	public String deleteBook(@PathVariable(name = "idb") Long idb) {
 		service.deleteById(idb);
 		return "redirect:/books_list";
